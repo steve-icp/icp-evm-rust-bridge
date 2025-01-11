@@ -12,10 +12,21 @@ use ic_cdk::api::management_canister::ecdsa::{EcdsaKeyId, EcdsaCurve};
 pub const EVM_RPC_CANISTER_ID: Principal = Principal::from_slice(b"\x00\x00\x00\x00\x02\x30\x00\xCC\x01\x01");
 pub const EVM_RPC: EvmRpcCanister = EvmRpcCanister(EVM_RPC_CANISTER_ID);
 
-fn get_rpc_service() -> RpcApi {
-    RpcApi {
-        url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
-        headers: None,
+fn get_rpc_services() -> RpcServices {
+    RpcServices::Custom { 
+        chainId: 11155111,  // Sepolia chain ID
+        services: vec![
+            // Primary endpoint
+            RpcApi {
+                url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
+                headers: None,
+            },
+            // Backup endpoint
+            RpcApi {
+                url: "https://sepolia.infura.io/v3/Yd0d25747e3804e2d951bca7fdc59fbc0".to_string(),
+                headers: None,
+            }
+        ]
     }
 }
 
@@ -45,8 +56,11 @@ pub async fn call_smart_contract(
             contract_details,
             value,
             RpcServices::Custom { 
-                chainId: 11155111,  // Sepolia chain ID
-                services: vec![get_rpc_service()]
+                chainId: 11155111,
+                services: vec![RpcApi {
+                    url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
+                    headers: None,
+                }]
             },
             fee_estimates.max_priority_fee_per_gas,
             key_id(),
@@ -59,8 +73,11 @@ pub async fn call_smart_contract(
         let tokens = eth_call(
             contract_details,
             "latest",
-            RpcService::EthSepolia(EthSepoliaService::Alchemy),
-            2048,
+            RpcService::Custom(RpcApi {
+                url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
+                headers: None,
+            }),
+            4096,
             EVM_RPC,
         ).await;
         
