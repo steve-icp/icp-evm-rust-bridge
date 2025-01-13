@@ -16,14 +16,12 @@ fn get_rpc_services() -> RpcServices {
     RpcServices::Custom { 
         chainId: 11155111,  // Sepolia chain ID
         services: vec![
-            // Primary endpoint
             RpcApi {
                 url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
                 headers: None,
             },
-            // Backup endpoint
             RpcApi {
-                url: "https://sepolia.infura.io/v3/Yd0d25747e3804e2d951bca7fdc59fbc0".to_string(),
+                url: "https://sepolia.infura.io/v3/d0d25747e3804e2d951bca7fdc59fbc0".to_string(),
                 headers: None,
             }
         ]
@@ -55,13 +53,7 @@ pub async fn call_smart_contract(
         let result = contract_interaction(
             contract_details,
             value,
-            RpcServices::Custom { 
-                chainId: 11155111,
-                services: vec![RpcApi {
-                    url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
-                    headers: None,
-                }]
-            },
+            get_rpc_services(), 
             fee_estimates.max_priority_fee_per_gas,
             key_id(),
             vec![],
@@ -77,7 +69,7 @@ pub async fn call_smart_contract(
                 url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
                 headers: None,
             }),
-            4096,
+            8192,
             EVM_RPC,
         ).await;
         
@@ -85,9 +77,14 @@ pub async fn call_smart_contract(
     }
 }
 
+// ECDSA key for your deployment environment:
+// - For local dfx: "dfx_test_key"
+// - For testnet: "test_key_1"
+// - For mainnet: Use EcdsaKeyId::default()
+
 fn key_id() -> EcdsaKeyId {
     EcdsaKeyId {
         curve: EcdsaCurve::Secp256k1,
-        name: "dfx_test_key".to_string(),
+        name: "test_key_1".to_string(),
     }
 }
