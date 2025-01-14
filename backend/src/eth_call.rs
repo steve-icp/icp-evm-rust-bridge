@@ -83,6 +83,6 @@ pub async fn call_smart_contract(
 fn key_id() -> EcdsaKeyId {
     EcdsaKeyId {
         curve: EcdsaCurve::Secp256k1,
-        name: "test_key_1".to_string(),
+        name: "dfx_test_key".to_string(),
     }
 }
