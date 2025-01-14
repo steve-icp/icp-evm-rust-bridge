@@ -12,16 +12,13 @@ use ic_cdk::api::management_canister::ecdsa::{EcdsaKeyId, EcdsaCurve};
 pub const EVM_RPC_CANISTER_ID: Principal = Principal::from_slice(b"\x00\x00\x00\x00\x02\x30\x00\xCC\x01\x01");
 pub const EVM_RPC: EvmRpcCanister = EvmRpcCanister(EVM_RPC_CANISTER_ID);
 
+// Modified to return a single reliable RPC service
 fn get_rpc_services() -> RpcServices {
-    RpcServices::Custom { 
-        chainId: 11155111,  // Sepolia chain ID
+    RpcServices::Custom {
+        chainId: 11155111, // Sepolia chain ID
         services: vec![
             RpcApi {
                 url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
-                headers: None,
-            },
-            RpcApi {
-                url: "https://sepolia.infura.io/v3/d0d25747e3804e2d951bca7fdc59fbc0".to_string(),
                 headers: None,
             }
         ]
@@ -45,20 +42,22 @@ pub async fn call_smart_contract(
 
     if is_write_operation {
         let fee_estimates = estimate_transaction_fees(
-            10, // block count for estimation
-            RpcServices::EthSepolia(Some(vec![EthSepoliaService::Alchemy])),
+            10,
+            get_rpc_services(),
             EVM_RPC,
         ).await;
+        // ic_cdk::println!("Fee estimates: {:?}", fee_estimates);
 
         let result = contract_interaction(
             contract_details,
             value,
-            get_rpc_services(), 
+            get_rpc_services(),
             fee_estimates.max_priority_fee_per_gas,
             key_id(),
             vec![],
             EVM_RPC,
-        ).await.map_err(|(code, msg)| format!("Error {:?}: {}", code, msg))?;        
+        ).await.map_err(|(code, msg)| format!("Error {:?}: {}", code, msg))?;
+        ic_cdk::println!("Result from contract interaction: {:?}", result);
 
         Ok(vec![Token::String(result)])
     } else {
@@ -73,10 +72,9 @@ pub async fn call_smart_contract(
             EVM_RPC,
         ).await;
         
-        Ok(tokens)        
+        Ok(tokens)
     }
 }
-
 // ECDSA key for your deployment environment:
 // - For local dfx: "dfx_test_key"
 // - For testnet: "test_key_1"
