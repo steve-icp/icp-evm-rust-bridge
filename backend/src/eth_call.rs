@@ -18,7 +18,7 @@ fn get_rpc_services() -> RpcServices {
         chainId: 11155111, // Sepolia chain ID
         services: vec![
             RpcApi {
-                url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(),
+                url: "https://eth-sepolia.g.alchemy.com/v2/DZ4mML30eplCsoK1DGPPbhX5YfvR7ZhL".to_string(), // Log into https://dashboard.alchemy.com/ and get your API key
                 headers: None,
             }
         ]

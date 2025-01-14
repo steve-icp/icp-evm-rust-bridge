@@ -51,12 +51,21 @@ echo
 # check_status
 # cd $PROJECT_NAME
 
-# Clone the template repository into the specified project name directory
-styled_echo $BLUE "🧬 Creating the template into $PROJECT_NAME..."
-git clone https://github.com/Stephen-Kimoi/icp-evm-rust-bridge.git ./$PROJECT_NAME
+# Check if both project name and package choice were provided
+if [ -z "$1" ] || [ -z "$2" ]; then
+    styled_echo $RED "❌ Usage: $0 <project-name> <package-choice>"
+    exit 1
+fi
+
+PROJECT_NAME=$1
+PACKAGE_CHOICE=$2
+
+# Clone the specific branch based on package choice
+styled_echo $BLUE "🧬 Creating the template into $PROJECT_NAME using $PACKAGE_CHOICE..."
+git clone -b $PACKAGE_CHOICE https://github.com/Stephen-Kimoi/icp-evm-rust-bridge.git ./$PROJECT_NAME
 check_status
 cd $PROJECT_NAME
-styled_echo $GREEN "Template created succesfully into $PROJECT_NAME."
+styled_echo $GREEN "Template created successfully into $PROJECT_NAME using $PACKAGE_CHOICE branch."
 
 # Remove the .git directory to remove commit history and remote connection
 rm -rf .git
