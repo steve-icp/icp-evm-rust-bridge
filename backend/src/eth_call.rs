@@ -7,7 +7,7 @@ use ethers_core::{
     types::U256,
 };
 use evm_rpc_canister_types::{RpcService, EvmRpcCanister};
-use ic_cdk::api::management_canister::ecdsa::{EcdsaKeyId, EcdsaCurve};
+use ic_cdk::api::management_canister::ecdsa::{ecdsa_public_key, EcdsaCurve, EcdsaKeyId, EcdsaPublicKeyArgument, EcdsaPublicKeyResponse};
 
 pub const EVM_RPC_CANISTER_ID: Principal = Principal::from_slice(b"\x00\x00\x00\x00\x02\x30\x00\xCC\x01\x01");
 pub const EVM_RPC: EvmRpcCanister = EvmRpcCanister(EVM_RPC_CANISTER_ID);
@@ -75,6 +75,17 @@ pub async fn call_smart_contract(
         Ok(tokens)
     }
 }
+
+pub async fn get_ecdsa_public_key() -> EcdsaPublicKeyResponse {
+    let (pub_key,) = ecdsa_public_key(EcdsaPublicKeyArgument {
+        key_id: key_id(),
+        ..Default::default()
+    })
+    .await
+    .expect("Failed to get public key");
+    pub_key
+}
+
 // ECDSA key for your deployment environment:
 // - For local dfx: "dfx_test_key"
 // - For testnet: "test_key_1"
