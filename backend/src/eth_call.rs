@@ -1,10 +1,10 @@
 use candid::Principal;
-use ic_evm_utils::{eth_call::eth_call, eth_send_raw_transaction::{send_raw_transaction, contract_interaction}, fees::estimate_transaction_fees};
+use ic_evm_utils::{eth_call::eth_call, eth_send_raw_transaction::contract_interaction, fees::estimate_transaction_fees};
 use ic_evm_utils::eth_send_raw_transaction::ContractDetails; 
-use evm_rpc_canister_types::{EthSepoliaService, RpcApi, RpcServices}; 
+use evm_rpc_canister_types::{RpcApi, RpcServices}; 
 use ethers_core::{
     abi::{Contract, Token},
-    types::{U256, NameOrAddress},
+    types::U256,
 };
 use evm_rpc_canister_types::{RpcService, EvmRpcCanister};
 use ic_cdk::api::management_canister::ecdsa::{EcdsaKeyId, EcdsaCurve};
