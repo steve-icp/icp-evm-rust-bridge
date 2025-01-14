@@ -6,7 +6,6 @@ use eth_call::{call_smart_contract, get_ecdsa_public_key};
 use store_transactions::{store_transaction_hash, get_transaction_hashes};
 use ethers_core::{abi::Address, k256::elliptic_curve::{sec1::ToEncodedPoint, PublicKey},  utils::keccak256};
 use k256::Secp256k1;
-// use ic_evm_utils::eth_address::get_eth_address;
 
 const CONTRACT_ADDRESS: &str = "0xAed5d7b083ad30ad6B50f698427aD4907845AAc3";
 
@@ -51,11 +50,6 @@ fn get_abi() -> ethers_core::abi::Contract {
     serde_json::from_str::<ethers_core::abi::Contract>(ABI_JSON)
         .expect("Failed to parse ABI")
 }
-
-// #[ic_cdk::update]
-// async fn get_canister_eth_address() -> String {
-//     get_eth_address(key_id()).await
-// }
 
 #[ic_cdk::update]
 async fn call_increase_count() -> Result<String, String> {
