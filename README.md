@@ -12,8 +12,14 @@ Link to canister URLs:
 
 To get started with this template, run the following command:
 
+When using ``ic-evm-utils`` crate: 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Stephen-Kimoi/icp-evm-rust-bridge/main/install_and_deploy.sh)" -- project-name
+npx create-icp-evm-bridge <project_name> ic-evm-utils
+```
+
+When using ``ic-alloy`` crate:
+```bash 
+npx create-icp-evm-bridge <project_name> ic-alloy
 ```
 
 This script will:
