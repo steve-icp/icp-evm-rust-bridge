@@ -4,10 +4,6 @@ This template provides a seamless integration between Internet Computer Protocol
 
 It has been built on top of the [evm rpc rust](https://github.com/fxgst/evm-rpc-rust/tree/main) template by [Elias Datler](https://github.com/fxgst).
 
-Link to canister URLs: 
-1. [Frontend](https://inuxd-qiaaa-aaaal-qjigq-cai.icp0.io/)
-2. [Backend](https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=gr5at-6yaaa-aaaal-qjfiq-cai)
-
 ## Quick Start
 
 To get started with this template, run the following command:
@@ -32,10 +28,10 @@ This script will:
 After running the script, your project will be set up and ready to use!
 
 Once the canister is deployed, this is what you'll see: 
-![alt text](image-1.png)
+![alt text](Image1.png)
 
 You can click on the frontend link and this is what you'll see: 
-![alt text](image.png)
+![alt text](Image2.png)
 
 ## Usage
 When you click on ``Get Canister ETH Address`` Button it will display the ETH Address of the backend canister
