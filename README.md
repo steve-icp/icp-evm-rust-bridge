@@ -1,4 +1,4 @@
-# ICP-EVM Integration Starter Template
+# ICP-EVM Integration Starter Template, testing merging
 
 This template provides a seamless integration between Internet Computer Protocol (ICP) canisters and Ethereum Virtual Machine (EVM) based smart contracts. It uses Rust for the backend canister and includes a simple Solidity smart contract for demonstration.
 
